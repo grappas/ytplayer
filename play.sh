@@ -2,7 +2,43 @@
 
 if [ "$1" = "" ]
 then
-echo "Argument -h lub --help, aby otrzymać pomoc."
+echo "Pass -h or --help for help."
+fi
+
+DEPENDENCYCHECK=
+
+if [ ! -z "$(where screen | grep 'not found')" ]
+then
+DEPENDENCYCHECK="screen
+$DEPENDENCYCHECK"
+fi
+
+if [ ! -z "$(where mplayer | grep 'not found')" ]
+then
+DEPENDENCYCHECK="mplayer
+$DEPENDENCYCHECK"
+fi
+
+if [ ! -z "$(where jq | grep 'not found')" ]
+then
+DEPENDENCYCHECK="jq
+$DEPENDENCYCHECK"
+fi
+
+if [ ! -z "$(where youtube-dl | grep 'not found')" ]
+then
+DEPENDENCYCHECK="youtube-dl
+$DEPENDENCYCHECK"
+fi
+
+if [ ! -z "$DEPENDENCYCHECK" ]
+then
+    echo "
+Dependencies not satisfied.
+Please install these applications:
+$DEPENDENCYCHECK
+"
+exit 1
 fi
 
 POSITIONAL=()
@@ -13,15 +49,15 @@ key="$1"
 case $key in
     -h|--help)
     echo "
-    -h|--help			Wyświetl tą wiadomość.
-    
-    -s|--start			Start/restart muzyki.
-    
-    -t|--stop			Zatrzymaj muzykę.
-    
-    -a|--append \"URL\"	Dodaj playlistę.
-    
-    -p|--pop \"URL\"	Usuń playlistę.
+    -h|--help			        Display this message.
+
+    -s|--start			        Start playing.
+
+    -t|--stop			        Stop playing.
+
+    -a|--append <Playlist ID>	Append playlist.
+
+    -p|--pop <Playlist ID>	    Pop playlist.
     "
     exit 1
     ;;
@@ -72,13 +108,13 @@ case $key in
     rm list2.tmp
     rm list3.tmp
     else
-    echo "URL powinien zawierać playlistę!"
+    echo "It should contain playlist ID."
     exit 1
     fi
     screen -X -S ytloop quit
     screen -S ytloop -md bash ytloop.sh
     shift # past argument
-    shift # past value 
+    shift # past value
     ;;
     -p|--pop)
     if [ ! -z "`echo "$2" | grep "list=" | grep "https://www.youtube.com/"`" ]
@@ -88,16 +124,16 @@ case $key in
     rm list.tmp
     rm -rf "`echo $2 | sed 's/.*list=//'`"
     else
-    echo "URL powinien zawierać playlistę!"
+    echo "It should contain playlist ID"
     exit 1
     fi
     screen -X -S ytloop quit
     screen -S ytloop -md bash ytloop.sh
     shift # past argument
-    shift # past value 
+    shift # past value
     ;;
     *)    # unknown option
-    echo "Argument -h lub --help, aby otrzymać pomoc."
+    echo "Pass -h or --help for help."
     POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
     ;;
