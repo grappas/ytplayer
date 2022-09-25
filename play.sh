@@ -7,25 +7,25 @@ fi
 
 DEPENDENCYCHECK=
 
-if [ ! -z "$(where screen | grep 'not found')" ]
+if [ ! -z "$(which screen | grep 'not found')" ]
 then
 DEPENDENCYCHECK="screen
 $DEPENDENCYCHECK"
 fi
 
-if [ ! -z "$(where mplayer | grep 'not found')" ]
+if [ ! -z "$(which mpv | grep 'not found')" ]
 then
 DEPENDENCYCHECK="mplayer
 $DEPENDENCYCHECK"
 fi
 
-if [ ! -z "$(where jq | grep 'not found')" ]
+if [ ! -z "$(which jq | grep 'not found')" ]
 then
 DEPENDENCYCHECK="jq
 $DEPENDENCYCHECK"
 fi
 
-if [ ! -z "$(where youtube-dl | grep 'not found')" ]
+if [ ! -z "$(which youtube-dl | grep 'not found')" ]
 then
 DEPENDENCYCHECK="youtube-dl
 $DEPENDENCYCHECK"
