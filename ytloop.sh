@@ -13,7 +13,11 @@ do
     then
         mkdir "playlists/`echo $each | sed 's/.*list=//'`"
     fi
-    youtube-dl --flat-playlist --get-filename --playlist-end 100  -o '%(id)s' "$each" > "playlists/`echo $each | sed 's/.*list=//'`/new.txt"
+    youtube-dl --flat-playlist --get-filename --playlist-end 100  -o '{
+        "id": "%(id)s",
+        "duration": %(duration)s
+}
+    ' "$each" | jq 'select(.duration < 600) | .id' | sed 's/\"//g' > "playlists/`echo $each | sed 's/.*list=//'`/new.txt"
     OLDPL="playlists/`echo $each | sed 's/.*list=//'`/old.txt"
     NEWPL="playlists/`echo $each | sed 's/.*list=//'`/new.txt"
     #if [ ! -f "$OLDPL" ]
