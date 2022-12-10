@@ -36,7 +36,7 @@ do
         echo "$each"
         #screen -S ff -md youtube-dl -f 140 --no-part -o - "$each" | mplayer -novideo -cache 1000 -cache-min 2 -
         #youtube-dl -f 140 --no-part -o - "$each" | mplayer -novideo -cache 1000 -cache-min 2 -
-        mpv --no-video 'https://www.youtube.com/watch?v='"$each"
+        mpv --no-video https://www.youtube.com/watch\?v\=$each
         #sleep 15
         #num=0
         #while  [ -n  "`pacmd list-sink-inputs | grep player`" ]

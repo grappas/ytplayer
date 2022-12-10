@@ -1,4 +1,14 @@
 #!/bin/bash
+
+if [ -z "$(which yt-dlp | grep 'not found')" ]
+then
+    YTCOMMAND="yt-dlp"
+    echo "We got it"
+else
+    YTCOMMAND="youtube-dl"
+    echo "We don't"
+fi
+
 while [ true ]
 do
     cat list.txt | while read -r each
@@ -13,7 +23,7 @@ do
     then
         mkdir "playlists/`echo $each | sed 's/.*list=//'`"
     fi
-    youtube-dl --flat-playlist --get-filename --playlist-end 100  -o '{
+    $YTCOMMAND --flat-playlist --get-filename --playlist-end 100  -o '{
         "id": "%(id)s",
         "duration": %(duration)s
 }

@@ -25,9 +25,9 @@ DEPENDENCYCHECK="jq
 $DEPENDENCYCHECK"
 fi
 
-if [ ! -z "$(which youtube-dl | grep 'not found')" ]
+if [ ! -z "$(which youtube-dl | grep 'not found')" ] || [ ! -z "$(which yt-dlp | grep 'not found')" ]
 then
-DEPENDENCYCHECK="youtube-dl
+DEPENDENCYCHECK="youtube-dl or yt-dlp
 $DEPENDENCYCHECK"
 fi
 
@@ -68,7 +68,7 @@ case $key in
     fi
     screen -X -S ytdl quit
     #screen -X -S ff quit
-    killall mplayer
+    killall mpv
     screen -S ytdl -md bash ytdll.sh
     shift # past argument
     ;;
